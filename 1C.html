@@ -1064,27 +1064,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
 // ===== TEACHER SUBMIT (Google Sheet via Apps Script) =====
-// PASTE your Google Apps Script Web App URL here after you deploy it:
-const TEACHER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyB0Bc9omxs51OwMcTXwK-koFk5QB0V_VNRFr5PohTduFAjsn6KE6_lt5PMbhBx4QhWJQ/exec';
+const TEACHER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOLbbrIaq7jq7Y9sBQYBbeLUTjZYwdb00ICZFYuryqlIwdijKO96bzpCqVWwNJdV9SKw/exec';
 
 function collectWritingAnswers() {
   const texts = [];
   document.querySelectorAll('textarea[data-ex]').forEach((ta, i) => {
     const v = (ta.value || '').trim();
-    if (v) texts.push('[' + (ta.dataset.ex || ('write' + i)) + '] ' + v);
+    if (v) texts.push((ta.dataset.ex || ('write' + (i + 1))) + ': ' + v);
   });
-  return texts.join(' || ');
+  return texts.join('\n');
 }
 
 function collectFullReportData() {
   const name = (document.getElementById('studentName') && document.getElementById('studentName').value || '').trim();
   let totalC = 0, totalM = 0;
-  const rows = [];
+  const scoreLines = [];
   const mistakeLines = [];
   if (typeof EXERCISES !== 'undefined') {
     EXERCISES.forEach(ex => {
-      let c = 0, m = ex.max, detail = '';
+      let c = 0, m = ex.max;
       if (ex.mcq) {
         const res = checkMCQ(ex.id, ex.answers);
         c = res.correct; m = res.total;
@@ -1094,29 +1094,28 @@ function collectFullReportData() {
         document.querySelectorAll('[data-ex="' + ex.id + '"]').forEach(el => {
           if (!el.dataset.answer || el.disabled) return;
           if (!isOk(el.value, el.dataset.answer)) {
-            const wrong = (el.value || '—').replace(/\|/g, '/');
+            const wrong = (el.value || '—').toString().trim();
             const right = el.dataset.answer.split('|')[0];
-            detail += ' ✗ "' + wrong + '" → ' + right + ';';
-            mistakeLines.push(ex.name + ': "' + wrong + '" → ' + right);
+            mistakeLines.push(ex.name + ': wrote "' + wrong + '" → correct: ' + right);
           }
         });
       }
       totalC += c; totalM += m;
-      rows.push({ name: ex.name, score: c + '/' + m, ok: c === m, detail: detail });
+      const mark = (c === m) ? 'OK' : 'REVIEW';
+      scoreLines.push(mark + '  ' + ex.name + '  ' + c + '/' + m);
     });
   }
   const pct = totalM ? Math.round(100 * totalC / totalM) : 0;
   return {
     name: name,
-    lesson: document.title || 'Unit lesson',
-    date: new Date().toISOString(),
+    lesson: (document.title || 'Unit lesson').replace(/\s*\|\s*.*$/, '').trim(),
+    date: new Date().toLocaleString(),
     totalCorrect: totalC,
     totalMax: totalM,
     percent: pct,
-    scores: rows.map(r => r.name + ': ' + r.score).join(' | '),
-    mistakes: mistakeLines.join(' || '),
-    writing: collectWritingAnswers(),
-    userAgent: navigator.userAgent.slice(0, 120)
+    scores: scoreLines.join('\n'),
+    mistakes: mistakeLines.length ? mistakeLines.join('\n') : 'None — all correct',
+    writing: collectWritingAnswers() || '—'
   };
 }
 
@@ -1124,7 +1123,7 @@ async function submitToTeacher() {
   const name = (document.getElementById('studentName') && document.getElementById('studentName').value || '').trim();
   if (!name) { alert('Please enter your name first.'); return; }
   if (!TEACHER_SCRIPT_URL || TEACHER_SCRIPT_URL.indexOf('PASTE_YOUR') === 0) {
-    alert('Teacher has not connected Google Sheet yet.\\n\\n(For the teacher: deploy the Apps Script and paste the Web App URL into TEACHER_SCRIPT_URL in the HTML file.)');
+    alert('Teacher has not connected Google Sheet yet.');
     return;
   }
   const payload = collectFullReportData();
@@ -1137,13 +1136,15 @@ async function submitToTeacher() {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
-    alert('✓ Progress sent to your teacher!\\n\\n' + payload.name + ' — ' + payload.percent + '%');
+    alert('✓ Progress sent to your teacher!\n\n' + payload.name + ' — ' + payload.percent + '%');
     if (typeof showXp === 'function') showXp('📤 Sent to teacher!');
   } catch (err) {
     alert('Could not send. Check your internet connection and try again.');
   }
   if (btn) { btn.disabled = false; btn.textContent = '📤 Submit to teacher'; }
 }
+
+
 
 </script>
 </body>
