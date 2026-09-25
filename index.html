@@ -1,230 +1,310 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#3b82f6">
-<title>Vocab Trainer · Course Navigator</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #f3f4f6;
-    color: #111827;
-  }
-  #nav { min-height: 100%; padding: 1.5rem 1rem 2.5rem; }
-  .wrap { max-width: 720px; margin: 0 auto; }
-  .logo {
-    display: flex; align-items: center; justify-content: center;
-    gap: 0.55rem; margin-bottom: 1.5rem;
-  }
-  .logo-icon {
-    width: 28px; height: 28px; border-radius: 8px;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa, #34d399);
-  }
-  .logo h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
-  .unit {
-    background: #fff; border-radius: 14px; border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    padding: 1.1rem 1.15rem 1.15rem; margin-bottom: 0.85rem;
-  }
-  .unit h2 {
-    font-size: 1.05rem; font-weight: 700; color: #2563eb;
-    margin-bottom: 0.75rem; padding-bottom: 0.55rem;
-    border-bottom: 1px solid #e5e7eb;
-  }
-  .lessons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .lessons a {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 0.55rem 0.9rem; background: #f9fafb; border: 1px solid #e5e7eb;
-    border-radius: 10px; color: #1f2937; text-decoration: none;
-    font-size: 0.9rem; font-weight: 600; min-height: 40px; cursor: pointer;
-  }
-  .lessons a:hover { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
-  .lessons a.ready { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
-  .lessons a.review { background: #f5f3ff; border-color: #c4b5fd; color: #6d28d9; }
-  @media (max-width: 480px) {
-    .lessons a { flex: 1 1 calc(50% - 0.5rem); font-size: 0.85rem; padding: 0.5rem 0.6rem; }
-  }
-  #viewer { display: none; flex-direction: column; height: 100%; height: 100dvh; }
-  #viewer.open { display: flex; }
-  #nav.hidden { display: none; }
-  .back-bar {
-    flex-shrink: 0; display: flex; align-items: center; gap: 0.75rem;
-    padding: calc(0.55rem + env(safe-area-inset-top, 0px)) 0.85rem 0.55rem;
-    background: #fff; border-bottom: 1px solid #e5e7eb;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04); z-index: 10;
-  }
-  .back-bar button {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    padding: 0.5rem 0.95rem; background: #eff6ff; border: 1.5px solid #93c5fd;
-    border-radius: 10px; color: #1d4ed8; font-size: 0.9rem; font-weight: 700;
-    font-family: inherit; cursor: pointer;
-  }
-  .back-bar .lesson-label {
-    font-size: 0.9rem; font-weight: 600; color: #6b7280;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  #lessonFrame { flex: 1; width: 100%; border: none; background: #faf5ff; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakout B2 - Course Navigator</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: #f6f8fa; 
+            color: #24292f; 
+        }
+        
+        /* Sticky Top Navigation Bar (Visible inside lesson view) */
+        #top-bar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #1f2328;
+            color: white;
+            padding: 0 20px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            background: #0969da;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .back-btn:hover { 
+            background: #085ed4; 
+        }
+
+        /* Dashboard Styles */
+        #main-container { 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 20px; 
+        }
+
+        h1 { 
+            text-align: center; 
+            color: #1f2328; 
+            margin-bottom: 30px; 
+        }
+
+        .unit-container { 
+            background: white; 
+            border: 1px solid #d0d7de; 
+            border-radius: 6px; 
+            margin-bottom: 20px; 
+            padding: 20px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        .unit-title { 
+            font-size: 20px; 
+            font-weight: 600; 
+            margin-top: 0; 
+            margin-bottom: 15px; 
+            color: #0969da; 
+            border-bottom: 1px solid #d0d7de; 
+            padding-bottom: 8px; 
+        }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
+            gap: 12px; 
+        }
+
+        .btn { 
+            display: block; 
+            text-align: center; 
+            padding: 12px 8px; 
+            background: #f6f8fa; 
+            color: #24292f; 
+            text-decoration: none; 
+            border: 1px solid #d0d7de; 
+            border-radius: 6px; 
+            font-weight: 500; 
+            font-size: 14px; 
+            transition: all 0.2s ease; 
+            cursor: pointer; 
+        }
+
+        .btn:hover { 
+            background: #238636; 
+            color: white; 
+            border-color: #238636; 
+            transform: translateY(-2px); 
+        }
+
+        /* Submit Section Styling */
+        .submit-section { 
+            background: white; 
+            border: 1px solid #d0d7de; 
+            border-radius: 6px; 
+            padding: 20px; 
+            margin-top: 30px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        .submit-section input[type="text"] { 
+            padding: 8px 12px; 
+            border: 1px solid #d0d7de; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            margin-right: 10px; 
+            width: 250px; 
+        }
+
+        .submit-btn { 
+            padding: 8px 16px; 
+            background: #238636; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: background 0.2s ease; 
+        }
+
+        .submit-btn:hover { 
+            background: #2ea043; 
+        }
+
+        #submissionStatus { 
+            margin-top: 10px; 
+            font-weight: 500; 
+            font-size: 14px; 
+        }
+
+        /* Embedded Lesson Frame */
+        #lesson-frame {
+            display: none;
+            width: 100%;
+            height: calc(100vh - 50px);
+            margin-top: 50px;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-<div id="nav">
-  <div class="wrap">
-    <div class="logo">
-      <div class="logo-icon"></div>
-      <h1>Vocab Trainer Navigator</h1>
+
+    <!-- TOP NAVIGATION BAR (Visible when viewing a lesson) -->
+    <div id="top-bar">
+        <button class="back-btn" onclick="closeLesson()">← Back to Main Page</button>
+        <span id="current-lesson-title" style="font-weight: bold; font-size: 16px;"></span>
     </div>
-    <section class="unit">
-      <h2>Unit 1</h2>
-      <div class="lessons">
-        <a class="ready" href="1A.html" data-title="Lesson 1A">Lesson 1A</a>
-        <a class="ready" href="1B.html" data-title="Lesson 1B">Lesson 1B</a>
-        <a class="ready" href="1C.html" data-title="Lesson 1C">Lesson 1C</a>
-        <a href="1D.html" data-title="Lesson 1D">Lesson 1D</a>
-        <a class="review" href="1Review.html" data-title="Unit 1 Review">Unit 1 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 2</h2>
-      <div class="lessons">
-        <a href="2A.html" data-title="Lesson 2A">Lesson 2A</a>
-        <a href="2B.html" data-title="Lesson 2B">Lesson 2B</a>
-        <a href="2C.html" data-title="Lesson 2C">Lesson 2C</a>
-        <a href="2D.html" data-title="Lesson 2D">Lesson 2D</a>
-        <a class="review" href="2Review.html" data-title="Unit 2 Review">Unit 2 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 3</h2>
-      <div class="lessons">
-        <a href="3A.html" data-title="Lesson 3A">Lesson 3A</a>
-        <a href="3B.html" data-title="Lesson 3B">Lesson 3B</a>
-        <a href="3C.html" data-title="Lesson 3C">Lesson 3C</a>
-        <a href="3D.html" data-title="Lesson 3D">Lesson 3D</a>
-        <a class="review" href="3Review.html" data-title="Unit 3 Review">Unit 3 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 4</h2>
-      <div class="lessons">
-        <a href="4A.html" data-title="Lesson 4A">Lesson 4A</a>
-        <a href="4B.html" data-title="Lesson 4B">Lesson 4B</a>
-        <a href="4C.html" data-title="Lesson 4C">Lesson 4C</a>
-        <a href="4D.html" data-title="Lesson 4D">Lesson 4D</a>
-        <a class="review" href="4Review.html" data-title="Unit 4 Review">Unit 4 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 5</h2>
-      <div class="lessons">
-        <a href="5A.html" data-title="Lesson 5A">Lesson 5A</a>
-        <a href="5B.html" data-title="Lesson 5B">Lesson 5B</a>
-        <a href="5C.html" data-title="Lesson 5C">Lesson 5C</a>
-        <a href="5D.html" data-title="Lesson 5D">Lesson 5D</a>
-        <a class="review" href="5Review.html" data-title="Unit 5 Review">Unit 5 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 6</h2>
-      <div class="lessons">
-        <a href="6A.html" data-title="Lesson 6A">Lesson 6A</a>
-        <a href="6B.html" data-title="Lesson 6B">Lesson 6B</a>
-        <a href="6C.html" data-title="Lesson 6C">Lesson 6C</a>
-        <a href="6D.html" data-title="Lesson 6D">Lesson 6D</a>
-        <a class="review" href="6Review.html" data-title="Unit 6 Review">Unit 6 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 7</h2>
-      <div class="lessons">
-        <a href="7A.html" data-title="Lesson 7A">Lesson 7A</a>
-        <a href="7B.html" data-title="Lesson 7B">Lesson 7B</a>
-        <a href="7C.html" data-title="Lesson 7C">Lesson 7C</a>
-        <a href="7D.html" data-title="Lesson 7D">Lesson 7D</a>
-        <a class="review" href="7Review.html" data-title="Unit 7 Review">Unit 7 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 8</h2>
-      <div class="lessons">
-        <a href="8A.html" data-title="Lesson 8A">Lesson 8A</a>
-        <a href="8B.html" data-title="Lesson 8B">Lesson 8B</a>
-        <a href="8C.html" data-title="Lesson 8C">Lesson 8C</a>
-        <a href="8D.html" data-title="Lesson 8D">Lesson 8D</a>
-        <a class="review" href="8Review.html" data-title="Unit 8 Review">Unit 8 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 9</h2>
-      <div class="lessons">
-        <a href="9A.html" data-title="Lesson 9A">Lesson 9A</a>
-        <a href="9B.html" data-title="Lesson 9B">Lesson 9B</a>
-        <a href="9C.html" data-title="Lesson 9C">Lesson 9C</a>
-        <a href="9D.html" data-title="Lesson 9D">Lesson 9D</a>
-        <a class="review" href="9Review.html" data-title="Unit 9 Review">Unit 9 Review</a>
-      </div>
-    </section>
-    <section class="unit">
-      <h2>Unit 10</h2>
-      <div class="lessons">
-        <a href="10A.html" data-title="Lesson 10A">Lesson 10A</a>
-        <a href="10B.html" data-title="Lesson 10B">Lesson 10B</a>
-        <a href="10C.html" data-title="Lesson 10C">Lesson 10C</a>
-        <a href="10D.html" data-title="Lesson 10D">Lesson 10D</a>
-        <a class="review" href="10Review.html" data-title="Unit 10 Review">Unit 10 Review</a>
-      </div>
-    </section>
-  </div>
-</div>
 
-<div id="viewer">
-  <div class="back-bar">
-    <button type="button" id="btnBack">← Main menu</button>
-    <span class="lesson-label" id="lessonLabel"></span>
-  </div>
-  <iframe id="lessonFrame" title="Lesson"></iframe>
-</div>
+    <!-- MAIN DASHBOARD NAVIGATOR -->
+    <div id="main-container">
+        <h1>📚 Speakout B2 Course Navigator</h1>
+        <div id="dashboard"></div>
 
-<script>
-(function () {
-  var nav = document.getElementById("nav");
-  var viewer = document.getElementById("viewer");
-  var frame = document.getElementById("lessonFrame");
-  var label = document.getElementById("lessonLabel");
-  var btnBack = document.getElementById("btnBack");
+        <!-- STUDENT SUBMIT BAR -->
+        <div class="submit-section">
+            <h3>Submit Progress to Teacher</h3>
+            <label for="studentName"><strong>Student Name:</strong> </label>
+            <input type="text" id="studentName" placeholder="Enter your full name..." required>
+            <button class="submit-btn" onclick="submitWork()">Send Report</button>
+            <p id="submissionStatus"></p>
+        </div>
+    </div>
 
-  function openLesson(href, title) {
-    label.textContent = title || "";
-    frame.src = href;
-    nav.classList.add("hidden");
-    viewer.classList.add("open");
-    history.pushState({ lesson: href }, "", "#" + href.replace(/\.html$/i, ""));
-  }
-  function closeLesson() {
-    frame.src = "about:blank";
-    viewer.classList.remove("open");
-    nav.classList.remove("hidden");
-    label.textContent = "";
-    if (location.hash) history.pushState(null, "", location.pathname + location.search);
-  }
-  document.querySelectorAll(".lessons a").forEach(function (a) {
-    a.addEventListener("click", function (e) {
-      e.preventDefault();
-      openLesson(a.getAttribute("href"), a.getAttribute("data-title") || a.textContent.trim());
-    });
-  });
-  btnBack.addEventListener("click", closeLesson);
-  window.addEventListener("popstate", function () {
-    if (viewer.classList.contains("open")) closeLesson();
-  });
-  if (location.hash && location.hash.length > 1) {
-    var id = location.hash.slice(1);
-    var link = document.querySelector('.lessons a[href="' + id + '.html"]');
-    if (link) openLesson(link.getAttribute("href"), link.getAttribute("data-title") || link.textContent.trim());
-  }
-})();
-</script>
+    <!-- IFRAME FOR DISPLAYING LESSON PAGES -->
+    <iframe id="lesson-frame"></iframe>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+        const dashboard = document.getElementById('dashboard');
+        const mainContainer = document.getElementById('main-container');
+        const topBar = document.getElementById('top-bar');
+        const lessonFrame = document.getElementById('lesson-frame');
+        const lessonTitle = document.getElementById('current-lesson-title');
+
+        // Render Dashboard
+        for (let unit = 1; unit <= 8; unit++) {
+            const unitDiv = document.createElement('div');
+            unitDiv.className = 'unit-container';
+            
+            const title = document.createElement('h2');
+            title.className = 'unit-title';
+            title.textContent = `Unit ${unit}`;
+            unitDiv.appendChild(title);
+            
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'grid';
+            
+            const letters = ['A', 'B', 'C', 'D'];
+            
+            letters.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.textContent = `Lesson ${unit}${letter}`;
+                btn.onclick = () => openLesson(`${unit}${letter}index.html`, `Lesson ${unit}${letter}`);
+                gridDiv.appendChild(btn);
+            });
+            
+            const reviewBtn = document.createElement('button');
+            reviewBtn.className = 'btn';
+            reviewBtn.textContent = `Unit ${unit} Review`;
+            reviewBtn.onclick = () => openLesson(`${unit} reviewindex.html`, `Unit ${unit} Review`);
+            gridDiv.appendChild(reviewBtn);
+            
+            unitDiv.appendChild(gridDiv);
+            dashboard.appendChild(unitDiv);
+        }
+
+        // Open Lesson in Frame
+        function openLesson(url, title) {
+            mainContainer.style.display = 'none';
+            topBar.style.display = 'flex';
+            lessonFrame.style.display = 'block';
+            lessonFrame.src = url;
+            lessonTitle.textContent = title;
+            window.scrollTo(0, 0);
+        }
+
+        // Return to Dashboard
+        function closeLesson() {
+            mainContainer.style.display = 'block';
+            topBar.style.display = 'none';
+            lessonFrame.style.display = 'none';
+            lessonFrame.src = '';
+            window.scrollTo(0, 0);
+        }
+
+        // Student Work Submission
+        async function submitWork() {
+            const nameInput = document.getElementById("studentName").value.trim();
+            const statusMsg = document.getElementById("submissionStatus");
+
+            if (!nameInput) {
+                alert("Please enter your name before submitting!");
+                return;
+            }
+
+            statusMsg.textContent = "Submitting your work...";
+            statusMsg.style.color = "#0969da";
+
+            const inputs = Array.from(document.querySelectorAll('input[data-correct], select[data-correct], textarea[data-correct]'));
+            
+            let score = 0;
+            const maxScore = inputs.length;
+            const mistakesList = [];
+
+            inputs.forEach(el => {
+                const studentVal = el.value.trim();
+                const correctVal = el.getAttribute('data-correct').trim();
+                const exerciseCategory = el.getAttribute('data-exercise') || el.name || el.id || "General Exercise";
+
+                if (studentVal.toLowerCase() === correctVal.toLowerCase()) {
+                    score++;
+                } else {
+                    mistakesList.push({
+                        exercise: exerciseCategory,
+                        studentInput: studentVal || "(Blank)",
+                        correctAnswer: correctVal
+                    });
+                }
+            });
+
+            const payload = {
+                studentName: nameInput,
+                course: "Speakout-B2",
+                unit: 1,
+                lesson: 4,
+                score: score,
+                maxScore: maxScore,
+                mistakes: mistakesList
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                statusMsg.textContent = `Report submitted successfully! Total score recorded.`;
+                statusMsg.style.color = "#1a7f37";
+            } catch (err) {
+                statusMsg.textContent = "Submission failed. Please check your network connection.";
+                statusMsg.style.color = "#cf222e";
+            }
+        }
+    </script>
+
 </body>
 </html>
