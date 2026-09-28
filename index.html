@@ -1,310 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speakout B2 - Course Navigator</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background: #f6f8fa; 
-            color: #24292f; 
-        }
-        
-        /* Sticky Top Navigation Bar (Visible inside lesson view) */
-        #top-bar {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: #1f2328;
-            color: white;
-            padding: 0 20px;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .back-btn {
-            background: #0969da;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .back-btn:hover { 
-            background: #085ed4; 
-        }
-
-        /* Dashboard Styles */
-        #main-container { 
-            max-width: 900px; 
-            margin: 40px auto; 
-            padding: 20px; 
-        }
-
-        h1 { 
-            text-align: center; 
-            color: #1f2328; 
-            margin-bottom: 30px; 
-        }
-
-        .unit-container { 
-            background: white; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            margin-bottom: 20px; 
-            padding: 20px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-        }
-
-        .unit-title { 
-            font-size: 20px; 
-            font-weight: 600; 
-            margin-top: 0; 
-            margin-bottom: 15px; 
-            color: #0969da; 
-            border-bottom: 1px solid #d0d7de; 
-            padding-bottom: 8px; 
-        }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
-            gap: 12px; 
-        }
-
-        .btn { 
-            display: block; 
-            text-align: center; 
-            padding: 12px 8px; 
-            background: #f6f8fa; 
-            color: #24292f; 
-            text-decoration: none; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            font-weight: 500; 
-            font-size: 14px; 
-            transition: all 0.2s ease; 
-            cursor: pointer; 
-        }
-
-        .btn:hover { 
-            background: #238636; 
-            color: white; 
-            border-color: #238636; 
-            transform: translateY(-2px); 
-        }
-
-        /* Submit Section Styling */
-        .submit-section { 
-            background: white; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            padding: 20px; 
-            margin-top: 30px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-        }
-
-        .submit-section input[type="text"] { 
-            padding: 8px 12px; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            font-size: 14px; 
-            margin-right: 10px; 
-            width: 250px; 
-        }
-
-        .submit-btn { 
-            padding: 8px 16px; 
-            background: #238636; 
-            color: white; 
-            border: none; 
-            border-radius: 6px; 
-            font-weight: 600; 
-            font-size: 14px; 
-            cursor: pointer; 
-            transition: background 0.2s ease; 
-        }
-
-        .submit-btn:hover { 
-            background: #2ea043; 
-        }
-
-        #submissionStatus { 
-            margin-top: 10px; 
-            font-weight: 500; 
-            font-size: 14px; 
-        }
-
-        /* Embedded Lesson Frame */
-        #lesson-frame {
-            display: none;
-            width: 100%;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
-            border: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d47a1">
+<meta http-equiv="Content-Language" content="en">
+<title>Unit 1 – Having a Good Time | Think Lessons</title>
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Unit%201%20Lessons%22%2C%22short_name%22%3A%22Unit%201%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23eef2f7%22%2C%22theme_color%22%3A%22%230d47a1%22%2C%22lang%22%3A%22en%22%7D">
+<style>
+:root {
+  --navy: #0d47a1;
+  --navy2: #1565c0;
+  --accent: #7c4dff;
+  --green: #2e7d32;
+  --orange: #f57c00;
+  --bg: #eef2f7;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, #e8eaf6 0%, var(--bg) 50%, #f5f5f5 100%);
+  color: #263238;
+  min-height: 100vh;
+  line-height: 1.45;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.header {
+  background: linear-gradient(135deg, #1a237e 0%, var(--navy) 45%, var(--navy2) 100%);
+  color: #fff;
+  padding: 28px 20px 32px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(13,71,161,.25);
+}
+.header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.18);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.header h1 {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.header p {
+  opacity: 0.9;
+  font-size: 0.95rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+.intro {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  font-size: 0.95rem;
+  color: #455a64;
+}
+.intro strong { color: var(--navy); }
+.grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 560px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 4px 20px rgba(13,71,161,.08);
+  border: 1px solid rgba(255,255,255,.9);
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+}
+.card:hover, .card:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(13,71,161,.16);
+  outline: none;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--navy), var(--accent));
+}
+.card.l4::before {
+  background: linear-gradient(90deg, #00897b, #00bfa5);
+}
+.card .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy2));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.card.l4 .num {
+  background: linear-gradient(135deg, #00695c, #00897b);
+}
+.card h2 {
+  font-size: 1.15rem;
+  color: #1a237e;
+  margin-bottom: 8px;
+}
+.card.l4 h2 { color: #004d40; }
+.card .topics {
+  font-size: 0.88rem;
+  color: #607d8b;
+  margin-bottom: 14px;
+}
+.card .go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--navy);
+  background: #e8eaf6;
+  padding: 8px 14px;
+  border-radius: 20px;
+}
+.card.l4 .go {
+  color: #00695c;
+  background: #e0f2f1;
+}
+.tips {
+  margin-top: 28px;
+  background: linear-gradient(135deg, #fff8e1, #ffecb3);
+  border-radius: 14px;
+  padding: 16px 18px;
+  border-left: 4px solid var(--orange);
+  font-size: 0.9rem;
+}
+.tips h3 {
+  font-size: 0.95rem;
+  color: #e65100;
+  margin-bottom: 8px;
+}
+.tips ul {
+  margin-left: 18px;
+  color: #5d4037;
+}
+.tips li { margin-bottom: 4px; }
+.footer {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 0.8rem;
+  color: #90a4ae;
+}
+</style>
 </head>
-<body>
+<body translate="no">
 
-    <!-- TOP NAVIGATION BAR (Visible when viewing a lesson) -->
-    <div id="top-bar">
-        <button class="back-btn" onclick="closeLesson()">← Back to Main Page</button>
-        <span id="current-lesson-title" style="font-weight: bold; font-size: 16px;"></span>
-    </div>
+<header class="header">
+  <div class="badge">THINK · LEVEL 1</div>
+  <h1>Unit 1 – Having a Good Time</h1>
+  <p>Interactive lessons · choose a lesson to start</p>
+</header>
 
-    <!-- MAIN DASHBOARD NAVIGATOR -->
-    <div id="main-container">
-        <h1>📚 Speakout B2 Course Navigator</h1>
-        <div id="dashboard"></div>
+<main class="wrap">
+  <div class="intro">
+    <strong>Students:</strong> enter your name in the lesson, complete the exercises, then open
+    <strong>Results Report → Submit to teacher</strong> when you finish.
+  </div>
 
-        <!-- STUDENT SUBMIT BAR -->
-        <div class="submit-section">
-            <h3>Submit Progress to Teacher</h3>
-            <label for="studentName"><strong>Student Name:</strong> </label>
-            <input type="text" id="studentName" placeholder="Enter your full name..." required>
-            <button class="submit-btn" onclick="submitWork()">Send Report</button>
-            <p id="submissionStatus"></p>
-        </div>
-    </div>
+  <div class="grid">
+    <a class="card" href="Unit1_Lesson3_FreeTime.html">
+      <div class="num">3</div>
+      <h2>Lesson 3 – Free Time</h2>
+      <p class="topics">Reading · like + -ing · Adverbs of frequency · Speaking</p>
+      <span class="go">Open lesson →</span>
+    </a>
 
-    <!-- IFRAME FOR DISPLAYING LESSON PAGES -->
-    <iframe id="lesson-frame"></iframe>
+    <a class="card l4" href="Unit1_Lesson4_Unusual_Hobbies.html">
+      <div class="num">4</div>
+      <h2>Lesson 4 – Unusual Hobbies</h2>
+      <p class="topics">Reading · Writing · Listening · A2 Key practice</p>
+      <span class="go">Open lesson →</span>
+    </a>
+  </div>
 
-    <script>
-        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  <div class="tips">
+    <h3>Quick tips</h3>
+    <ul>
+      <li>Works best on phone or computer in <strong>Chrome / Safari</strong></li>
+      <li>On iPhone: Share → <strong>Add to Home Screen</strong> for app-like use</li>
+      <li>Your answers are saved on this device automatically</li>
+      <li>Double-tap a word for English definition + Russian translation</li>
+    </ul>
+  </div>
 
-        const dashboard = document.getElementById('dashboard');
-        const mainContainer = document.getElementById('main-container');
-        const topBar = document.getElementById('top-bar');
-        const lessonFrame = document.getElementById('lesson-frame');
-        const lessonTitle = document.getElementById('current-lesson-title');
-
-        // Render Dashboard
-        for (let unit = 1; unit <= 8; unit++) {
-            const unitDiv = document.createElement('div');
-            unitDiv.className = 'unit-container';
-            
-            const title = document.createElement('h2');
-            title.className = 'unit-title';
-            title.textContent = `Unit ${unit}`;
-            unitDiv.appendChild(title);
-            
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'grid';
-            
-            const letters = ['A', 'B', 'C', 'D'];
-            
-            letters.forEach(letter => {
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.textContent = `Lesson ${unit}${letter}`;
-                btn.onclick = () => openLesson(`${unit}${letter}index.html`, `Lesson ${unit}${letter}`);
-                gridDiv.appendChild(btn);
-            });
-            
-            const reviewBtn = document.createElement('button');
-            reviewBtn.className = 'btn';
-            reviewBtn.textContent = `Unit ${unit} Review`;
-            reviewBtn.onclick = () => openLesson(`${unit} reviewindex.html`, `Unit ${unit} Review`);
-            gridDiv.appendChild(reviewBtn);
-            
-            unitDiv.appendChild(gridDiv);
-            dashboard.appendChild(unitDiv);
-        }
-
-        // Open Lesson in Frame
-        function openLesson(url, title) {
-            mainContainer.style.display = 'none';
-            topBar.style.display = 'flex';
-            lessonFrame.style.display = 'block';
-            lessonFrame.src = url;
-            lessonTitle.textContent = title;
-            window.scrollTo(0, 0);
-        }
-
-        // Return to Dashboard
-        function closeLesson() {
-            mainContainer.style.display = 'block';
-            topBar.style.display = 'none';
-            lessonFrame.style.display = 'none';
-            lessonFrame.src = '';
-            window.scrollTo(0, 0);
-        }
-
-        // Student Work Submission
-        async function submitWork() {
-            const nameInput = document.getElementById("studentName").value.trim();
-            const statusMsg = document.getElementById("submissionStatus");
-
-            if (!nameInput) {
-                alert("Please enter your name before submitting!");
-                return;
-            }
-
-            statusMsg.textContent = "Submitting your work...";
-            statusMsg.style.color = "#0969da";
-
-            const inputs = Array.from(document.querySelectorAll('input[data-correct], select[data-correct], textarea[data-correct]'));
-            
-            let score = 0;
-            const maxScore = inputs.length;
-            const mistakesList = [];
-
-            inputs.forEach(el => {
-                const studentVal = el.value.trim();
-                const correctVal = el.getAttribute('data-correct').trim();
-                const exerciseCategory = el.getAttribute('data-exercise') || el.name || el.id || "General Exercise";
-
-                if (studentVal.toLowerCase() === correctVal.toLowerCase()) {
-                    score++;
-                } else {
-                    mistakesList.push({
-                        exercise: exerciseCategory,
-                        studentInput: studentVal || "(Blank)",
-                        correctAnswer: correctVal
-                    });
-                }
-            });
-
-            const payload = {
-                studentName: nameInput,
-                course: "Speakout-B2",
-                unit: 1,
-                lesson: 4,
-                score: score,
-                maxScore: maxScore,
-                mistakes: mistakesList
-            };
-
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                statusMsg.textContent = `Report submitted successfully! Total score recorded.`;
-                statusMsg.style.color = "#1a7f37";
-            } catch (err) {
-                statusMsg.textContent = "Submission failed. Please check your network connection.";
-                statusMsg.style.color = "#cf222e";
-            }
-        }
-    </script>
+  <p class="footer">Unit 1 · Think 2nd Edition · Student lessons</p>
+</main>
 
 </body>
 </html>
