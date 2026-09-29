@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="1A Get Thinking">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d47a1">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Language" content="en">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%221A Get Thinking%22%2C%22short_name%22%3A%221A Get Thinking%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23eef2f7%22%2C%22theme_color%22%3A%22%230d47a1%22%2C%22lang%22%3A%22en%22%7D">
+<title>1A Get Thinking</title>
+<style>
+
+:root {
+  --sidebar-w: 240px; --topbar-h: 36px;
+  --navy: #0d47a1; --navy-2: #1565c0; --blue: #1a73e8;
+  --light-blue: #e8f0fe; --green: #2e7d32; --red: #c62828;
+  --orange: #f57c00; --grey: #546e7a; --border: #cfd8dc;
+  --bg: #eef2f7; --accent: #7c4dff; --pink: #ff4081;
+  --grad: linear-gradient(135deg, #1a237e 0%, #0d47a1 40%, #1565c0 100%);
+  --card-shadow: 0 4px 20px rgba(13,71,161,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; height: 100%; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, #e8eaf6 0%, var(--bg) 40%, #f5f5f5 100%);
+  color: #263238; line-height: 1.45; height: 100%; overflow: hidden;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0,1fr);
+  grid-template-rows: var(--topbar-h) minmax(0,1fr);
+  grid-template-areas: "side top" "side main";
+  -webkit-tap-highlight-color: transparent;
+}
+.sidebar {
+  grid-area: side; background: linear-gradient(180deg, #fff 0%, #f3e5f5 100%);
+  border-right: none; box-shadow: 4px 0 24px rgba(0,0,0,.06);
+  display: flex; flex-direction: column; overflow-y: auto;
+  padding: 0 0 calc(12px + env(safe-area-inset-bottom)); z-index: 900;
+}
+.sidebar .brand {
+  background: var(--grad); color: #fff; padding: 14px 16px;
+  border-radius: 0 0 16px 16px; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px;
+}
+.sidebar .student-box { padding: 8px 16px; }
+.sidebar .student-box label { font-size: 0.75rem; color: var(--grey); display: block; margin-bottom: 4px; }
+.sidebar .student-box input {
+  width: 100%; border: 2px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 0.9rem; min-height: 40px;
+}
+.sidebar .btn-report {
+  margin: 10px 16px; width: calc(100% - 32px);
+  background: linear-gradient(135deg, #ff9800, #f57c00); color: #000; border: none;
+  padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer; min-height: 44px;
+  box-shadow: 0 4px 12px rgba(245,124,0,.35);
+}
+.sidebar h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--grey); padding: 12px 16px 4px; }
+.sidebar a.nav-link {
+  display: block; padding: 10px 16px; color: #37474f; text-decoration: none; font-size: 0.9rem;
+  border-left: 3px solid transparent; min-height: 44px; border-radius: 0 20px 20px 0; margin: 2px 8px 2px 0;
+}
+.sidebar a.nav-link.active, .sidebar a.nav-link:hover {
+  background: linear-gradient(90deg, #e8eaf6, #c5cae9); border-left-color: var(--accent); color: var(--navy); font-weight: 600;
+}
+.progress-bar-wrap { height: 6px; background: #e0e0e0; border-radius: 3px; margin: 8px 16px 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #7c4dff, #00bfa5); border-radius: 3px; width: 0%; transition: width .4s ease; }
+.encourage { text-align: center; font-size: 0.85rem; color: #5e35b1; margin: 4px 12px 8px; min-height: 1.2em; }
+.topbar {
+  grid-area: top; background: var(--grad); color: #fff;
+  display: flex; align-items: center; padding: 0 12px; gap: 10px;
+  height: var(--topbar-h); min-height: var(--topbar-h);
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  z-index: 800; box-shadow: 0 2px 12px rgba(13,71,161,.25);
+}
+.topbar .hamburger { display: none; background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer; padding: 4px 8px; min-width: 44px; min-height: 36px; }
+.topbar h1 { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.main {
+  grid-area: main; overflow-y: auto;
+  padding: 16px 20px calc(80px + env(safe-area-inset-bottom));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  -webkit-overflow-scrolling: touch;
+}
+.section { display: none; background: #fff; border-radius: 16px; box-shadow: var(--card-shadow);
+  padding: 20px 22px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,.8); animation: fadeIn .35s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--light-blue); }
+.section-header .num {
+  background: var(--blue); color: #fff; width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.2rem; color: var(--navy); }
+.section-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border); gap: 10px; }
+.section-nav button {
+  background: linear-gradient(135deg, #1a237e, #283593); color: #fff; border: none;
+  padding: 10px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; min-height: 44px; font-size: 0.9rem;
+  box-shadow: 0 3px 10px rgba(26,35,126,.25);
+}
+.section-nav button:disabled { opacity: 0.4; cursor: default; }
+.section-nav .counter { font-weight: 600; color: #1a237e; font-size: 0.9rem; background: #e8eaf6; padding: 6px 14px; border-radius: 20px; }
+.skill-box {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #e8eaf6, #c5cae9); color: var(--navy);
+  padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;
+}
+.objectives {
+  background: linear-gradient(135deg, #e3f2fd, #e8eaf6); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; font-size: 0.9rem;
+}
+.objectives h3 { color: var(--navy); font-size: 0.85rem; margin-bottom: 6px; }
+.objectives ul { margin-left: 18px; }
+.exercise {
+  margin: 18px 0; background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+  border: 1px solid #e0e0e0; border-radius: 14px; padding: 14px 16px;
+}
+.exercise h4 { font-size: 1rem; margin-bottom: 10px; color: #1565c0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.exercise h4 .badge {
+  background: linear-gradient(135deg, #ff6f00, #ff9100); color: #fff; font-size: 0.7rem;
+  padding: 2px 8px; border-radius: 10px; box-shadow: 0 2px 6px rgba(255,111,0,.3);
+}
+.fill-list, .matching-list { list-style: none; }
+.fill-list li, .matching-list li { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; flex-wrap: wrap; }
+input[type=text], select, textarea {
+  border: 2px solid #b0bec5; border-radius: 6px; padding: 8px 10px; font-size: 0.93rem;
+  transition: border-color .15s, background .15s; min-height: 40px; font-family: inherit;
+}
+input[type=text]:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); }
+input.correct, select.correct { border-color: #00c853 !important; background: #e8f5e9; box-shadow: 0 0 0 3px rgba(0,200,83,.15); }
+input.incorrect, select.incorrect { border-color: #ff1744 !important; background: #ffebee; box-shadow: 0 0 0 3px rgba(255,23,68,.12); }
+.btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+button.btn { border: none; padding: 9px 14px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.88rem; min-height: 40px; touch-action: manipulation; }
+.btn-check { background: linear-gradient(135deg, #43a047, #2e7d32); color: #fff; box-shadow: 0 3px 10px rgba(46,125,50,.3); }
+.btn-clear { background: #78909c; color: #fff; }
+.btn-write { background: linear-gradient(135deg, #7c4dff, #651fff); color: #fff; }
+.score-display { font-weight: 700; color: #1b5e20; margin-left: 6px; font-size: 0.9rem;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 4px 12px; border-radius: 20px; }
+.rule-box, .tip-box {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3); border-radius: 12px;
+  padding: 12px 16px; margin: 12px 0; font-size: 0.9rem; border-left: 4px solid #ffb300;
+}
+.speaking-box {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0); border-radius: 12px;
+  padding: 12px 16px; margin: 12px 0; font-size: 0.9rem; border-left: 4px solid var(--pink);
+}
+.photo-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px; margin: 14px 0;
+}
+.photo-card {
+  border-radius: 12px; text-align: center; padding: 12px 8px; background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06); border: 1px solid #eee;
+}
+.photo-card .emoji { font-size: 2rem; border-radius: 10px; padding: 12px; margin-bottom: 6px; }
+.photo-card .label { font-weight: 700; color: var(--navy); }
+.quiz-q { margin-bottom: 14px; padding: 12px; background: #f8fafc; border-radius: 10px; border: 1px solid var(--border); }
+.quiz-q .q-num {
+  background: var(--blue); color: #fff; width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 8px; font-size: 0.85rem;
+}
+.quiz-options label {
+  display: block; padding: 8px 8px 8px 28px; cursor: pointer; position: relative; font-size: 0.92rem; min-height: 40px;
+}
+.quiz-options input { position: absolute; left: 6px; top: 12px; }
+#wordPopup {
+  display: none; position: fixed; z-index: 3000; background: #fff; border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.2); max-width: 320px; width: 90vw; overflow: hidden; border: none; padding: 0;
+}
+#wordPopup .wp-header {
+  background: var(--grad); color: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+}
+#wordPopup .wp-body { padding: 14px 16px; font-size: 0.9rem; }
+#wordPopup .wp-word { color: #fff; font-size: 1.2rem; font-weight: 700; }
+#wordPopup .wp-pos { color: rgba(255,255,255,.85); font-size: 0.8rem; margin-left: 6px; }
+#wordPopup .wp-ru {
+  margin-top: 8px; padding: 8px 10px; background: #f3e5f5; border-radius: 8px;
+  font-size: 0.95rem; color: #4a148c; font-weight: 600;
+}
+#wordPopup .wp-ru::before { content: "🇷🇺 "; }
+#wordPopup .wp-close {
+  background: rgba(255,255,255,.15); border: none; color: #fff; font-size: 1.3rem;
+  border-radius: 50%; width: 28px; height: 28px; cursor: pointer;
+}
+.xp-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: linear-gradient(135deg, #7c4dff, #00bfa5); color: #fff; padding: 12px 22px;
+  border-radius: 30px; font-weight: 700; font-size: 0.95rem;
+  box-shadow: 0 8px 24px rgba(124,77,255,.4); z-index: 4000; opacity: 0;
+  transition: transform .35s ease, opacity .35s ease; pointer-events: none;
+}
+.xp-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 2000;
+  display: none; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: #fff; border-radius: 14px; width: 100%; max-width: 540px; max-height: 85vh;
+  overflow-y: auto; padding: 22px; box-shadow: 0 12px 40px rgba(0,0,0,.3);
+}
+.modal h2 { color: var(--navy); margin-bottom: 10px; }
+.modal .total-score { font-size: 1.7rem; font-weight: 700; text-align: center; margin: 12px 0; color: var(--green); }
+.modal table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.88rem; }
+.modal th, .modal td { border: 1px solid #e0e0e0; padding: 7px 10px; text-align: left; vertical-align: top; }
+.modal th { background: #f5f5f5; }
+.modal .btn-copy, .modal .btn-dl {
+  background: var(--blue); color: #fff; border: none; padding: 9px 14px; border-radius: 6px;
+  cursor: pointer; font-weight: 600; margin: 4px 4px 0 0; min-height: 40px;
+}
+.modal .btn-close { background: #78909c; color: #fff; border: none; padding: 9px 14px; border-radius: 6px; cursor: pointer; min-height: 40px; }
+.drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 850; }
+.drawer-overlay.show { display: block; }
+.footer-note { text-align: center; color: #90a4ae; font-size: 0.8rem; margin-top: 20px; }
+.write-feedback { margin-top: 10px; padding: 10px 12px; border-radius: 8px; background: #f3e5f5; font-size: 0.88rem; display: none; }
+.write-feedback .issue { margin: 6px 0; padding: 6px 8px; background: #fff; border-radius: 6px; border-left: 3px solid #9c27b0; }
+@media (max-width: 820px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--topbar-h) minmax(0,1fr);
+    grid-template-areas: "top" "main";
+  }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; width: min(280px, 85vw);
+    transform: translateX(-100%); transition: transform .25s ease; z-index: 950;
+    box-shadow: 4px 0 20px rgba(0,0,0,.15);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .topbar .hamburger { display: block; }
+  .main { padding: 12px 12px calc(70px + env(safe-area-inset-bottom)); }
+}
+
+</style>
+</head>
+<body translate="no">
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+<nav class="sidebar">
+  <div class="brand">1A Get Thinking</div>
+  <div class="student-box">
+    <label>Student name</label>
+    <input type="text" id="studentName" placeholder="Your name" autocomplete="name">
+  </div>
+  <button type="button" class="btn-report" onclick="openReport()">Results Report</button>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="encourage" id="encourageMsg">Let's go! 💪</div>
+  <h3>Sections</h3>
+  <a href="#sec1" class="nav-link active" data-sec="sec1">1. Get Thinking</a>
+  <a href="#sec2" class="nav-link" data-sec="sec2">2. Your opinions</a>
+</nav>
+<header class="topbar">
+  <button type="button" class="hamburger" onclick="openDrawer()" aria-label="Menu">☰</button>
+  <h1>1A Get Thinking</h1>
+</header>
+<div class="main">
+
+<div id="sec1" class="section active">
+  <div class="section-header"><div class="num">1</div><h2>Get Thinking &amp; Reading</h2></div>
+  <div class="objectives">
+    <h3>OBJECTIVES</h3>
+    <ul>
+      <li><strong>Functions:</strong> talking about routines and everyday activities; expressing likes and dislikes; giving warnings and stating prohibition; talking about free-time activities</li>
+      <li><strong>Grammar:</strong> present simple review; like + -ing; adverbs of frequency</li>
+      <li><strong>Vocabulary:</strong> hobbies; collocations with <em>have</em></li>
+    </ul>
+  </div>
+  <div class="skill-box">▶ Get THINKING</div>
+  <p>Watch the video and think: <strong>what makes you happy?</strong></p>
+  <div class="photo-grid">
+    <div class="photo-card"><div class="emoji" style="background:#bbdefb">📖</div><div class="label">A</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#c8e6c9">📱</div><div class="label">B</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#ffe0b2">😴</div><div class="label">C</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#f8bbd0">💃</div><div class="label">D</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#d1c4e9">🤸</div><div class="label">E</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#b2dfdb">📝</div><div class="label">F</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#ffccbc">🚴</div><div class="label">G</div></div>
+    <div class="photo-card"><div class="emoji" style="background:#cfd8dc">🧹</div><div class="label">H</div></div>
+  </div>
+  <div class="exercise" data-ex="ex1-1">
+    <h4>1 Match the activities and the photos. <span class="badge">8 pts</span></h4>
+    <ul class="matching-list">
+      <li>1 sleeping → <input type="text" data-answer="C" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>2 doing homework → <input type="text" data-answer="F" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>3 doing exercise → <input type="text" data-answer="E" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>4 messaging on your phone → <input type="text" data-answer="B" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>5 reading → <input type="text" data-answer="A" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>6 dancing → <input type="text" data-answer="D" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>7 doing housework → <input type="text" data-answer="H" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+      <li>8 singing → <input type="text" data-answer="G" data-ex="ex1-1" maxlength="1" style="width:50px" placeholder="?"></li>
+    </ul>
+    <div class="btn-row">
+      <button type="button" class="btn btn-check" onclick="checkEx('ex1-1')">Check</button>
+      <button type="button" class="btn btn-clear" onclick="clearEx('ex1-1')">Clear</button>
+      <span class="score-display" id="score-ex1-1"></span>
+    </div>
+  </div>
+</div>
+<div id="sec2" class="section">
+  <div class="section-header"><div class="num">2</div><h2>Your opinions</h2></div>
+  <div class="exercise" data-ex="ex1-2">
+    <h4>2 Do you enjoy these activities? Write always, sometimes or never. <span class="badge">8 pts</span></h4>
+    <ul class="fill-list">
+      <li>1 Sleeping is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="always/sometimes/never"> fun.</li>
+      <li>2 Reading is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> boring.</li>
+      <li>3 Doing homework is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> interesting.</li>
+      <li>4 Dancing is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> easy.</li>
+      <li>5 Doing exercise is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> boring.</li>
+      <li>6 Doing housework is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> difficult.</li>
+      <li>7 Messaging on my phone is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> fun.</li>
+      <li>8 Singing is <input type="text" data-answer="always|sometimes|never" data-ex="ex1-2" placeholder="..."> difficult.</li>
+    </ul>
+    <p style="font-size:.85rem;color:#666;margin-top:8px">Personal answers – any of the three options scores as correct.</p>
+    <div class="btn-row">
+      <button type="button" class="btn btn-check" onclick="checkEx('ex1-2')">Check</button>
+      <button type="button" class="btn btn-clear" onclick="clearEx('ex1-2')">Clear</button>
+      <span class="score-display" id="score-ex1-2"></span>
+    </div>
+  </div>
+  <div class="speaking-box"><strong>3 SPEAKING</strong> Work in groups of three and compare your ideas from Exercise 2.<br><em>I think reading is sometimes boring.</em><br><em>Really? I think it’s never boring.</em></div>
+  <div class="speaking-box"><strong>4 SPEAKING</strong> Think of more activities and say what you think.<br><em>Playing football is always fun.</em><br><em>Studying is sometimes interesting.</em></div>
+  <div class="exercise">
+    <h4>Your notes</h4>
+    <textarea data-ex="ex1-notes" rows="4" style="width:100%" placeholder="Write your ideas here…"></textarea>
+  </div>
+</div>
+
+  <p class="footer-note">Unit 1 · Think 2nd Edition · 1A Get Thinking</p>
+</div>
+<div class="xp-toast" id="xpToast"></div>
+<div id="wordPopup">
+  <div class="wp-header">
+    <div><span class="wp-word"></span> <span class="wp-pos"></span></div>
+    <button type="button" class="wp-close" onclick="hideWordPopup()">×</button>
+  </div>
+  <div class="wp-body">
+    <div class="wp-def"></div>
+    <div class="wp-ru"></div>
+    <div class="wp-ex"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <h2>Results Report</h2>
+    <p>Student: <strong id="reportName">—</strong></p>
+    <div class="total-score" id="reportTotal">0 / 0</div>
+    <table><thead><tr><th>Exercise</th><th>Score</th><th>Notes</th></tr></thead><tbody id="reportBody"></tbody></table>
+    <button type="button" class="btn-copy" onclick="copyReport()">Copy report</button>
+    <button type="button" class="btn-dl" onclick="downloadReport()">Download .txt</button>
+    <button type="button" class="btn-dl" id="btnSubmitTeacher" onclick="submitToTeacher()" style="background:linear-gradient(135deg,#43a047,#2e7d32)">📤 Submit to teacher</button>
+    <button type="button" class="btn-close" onclick="closeReport()">Close</button>
+  </div>
+</div>
+<script>
+const STORAGE_KEY = 'thk2_u1_l1a_v1';
+
+const EXERCISES = [
+  { id: 'ex1-1', name: 'Match activities & photos', max: 8 },
+  { id: 'ex1-2', name: 'always / sometimes / never', max: 8 }
+];
+
+
+
+function normalize(s) {
+  return (s || '').toLowerCase().trim()
+    .replace(/[\u2018\u2019\u201C\u201D]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/[.?!]+$/g, '');
+}
+function isOk(user, answerStr) {
+  if (!answerStr) return false;
+  const u = normalize(user);
+  if (!u) return false;
+  const variants = answerStr.split('|').map(a => normalize(a));
+  for (const v of variants) {
+    if (u === v) return true;
+    if (v.length > 2 && (u.includes(v) || v.includes(u))) return true;
+    for (const piece of v.split(',').map(p => p.trim()).filter(Boolean)) {
+      if (piece.length > 2 && (u === piece || u.includes(piece))) return true;
+    }
+  }
+  return false;
+}
+function isPrefix(user, answerStr) {
+  if (!answerStr) return false;
+  const u = normalize(user);
+  if (!u) return false;
+  return answerStr.split('|').some(a => normalize(a).startsWith(u));
+}
+function liveCheck(el) {
+  if (!el.dataset.answer) return;
+  const val = el.value || '';
+  el.classList.remove('correct', 'incorrect');
+  if (!val.trim()) return;
+  if (isOk(val, el.dataset.answer)) el.classList.add('correct');
+  else if (!isPrefix(val, el.dataset.answer)) el.classList.add('incorrect');
+}
+let currentSec = 0;
+const sections = () => [...document.querySelectorAll('.section')];
+function showSection(idx) {
+  const secs = sections();
+  if (idx < 0 || idx >= secs.length) return;
+  secs.forEach(s => s.classList.remove('active'));
+  secs[idx].classList.add('active');
+  currentSec = idx;
+  document.querySelectorAll('.nav-link').forEach((a, i) => a.classList.toggle('active', i === idx));
+  document.querySelectorAll('.section-nav').forEach(nav => {
+    const prev = nav.querySelector('.btn-prev');
+    const next = nav.querySelector('.btn-next');
+    const counter = nav.querySelector('.counter');
+    if (prev) prev.disabled = idx === 0;
+    if (next) next.disabled = idx === secs.length - 1;
+    if (counter) counter.textContent = (idx + 1) + ' / ' + secs.length;
+  });
+  const main = document.querySelector('.main');
+  if (main) main.scrollTop = 0;
+  closeDrawer();
+  const fill = document.getElementById('progressFill');
+  const enc = document.getElementById('encourageMsg');
+  if (fill) fill.style.width = Math.round(((idx + 1) / secs.length) * 100) + '%';
+  if (enc) {
+    const msgs = ['You got this! 💪', 'Keep going! 🚀', 'Nice progress! ⭐', 'Almost there! 🔥', 'Champion mode! 🏆'];
+    enc.textContent = msgs[Math.min(idx, msgs.length - 1)];
+  }
+}
+function goPrev() { showSection(currentSec - 1); }
+function goNext() { showSection(currentSec + 1); }
+function openDrawer() {
+  document.querySelector('.sidebar').classList.add('open');
+  const o = document.querySelector('.drawer-overlay');
+  if (o) o.classList.add('show');
+}
+function closeDrawer() {
+  document.querySelector('.sidebar').classList.remove('open');
+  const o = document.querySelector('.drawer-overlay');
+  if (o) o.classList.remove('show');
+}
+function saveState() {
+  const data = { name: (document.getElementById('studentName') || {}).value || '', vals: {} };
+  document.querySelectorAll('input[data-ex], textarea[data-ex], select[data-ex]').forEach((el, i) => {
+    if (el.type === 'radio') { if (el.checked) data.vals['r_' + el.name] = el.value; }
+    else data.vals[el.dataset.sid || ('i_' + i)] = el.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+function loadState() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const nameEl = document.getElementById('studentName');
+    if (data.name && nameEl) nameEl.value = data.name;
+    document.querySelectorAll('input[data-ex], textarea[data-ex], select[data-ex]').forEach((el, i) => {
+      if (el.type === 'radio') {
+        if (data.vals && data.vals['r_' + el.name] === el.value) el.checked = true;
+      } else {
+        const key = el.dataset.sid || ('i_' + i);
+        if (data.vals && data.vals[key] !== undefined) el.value = data.vals[key];
+      }
+    });
+  } catch (e) {}
+}
+function checkEx(exId) {
+  const inputs = document.querySelectorAll('[data-ex="' + exId + '"]');
+  let correct = 0, total = 0;
+  inputs.forEach(el => {
+    if (!el.dataset.answer || el.disabled || el.type === 'radio') return;
+    total++;
+    el.classList.remove('correct', 'incorrect');
+    if (isOk(el.value, el.dataset.answer)) { el.classList.add('correct'); correct++; }
+    else el.classList.add('incorrect');
+  });
+  const scoreEl = document.getElementById('score-' + exId);
+  if (scoreEl) scoreEl.textContent = correct + '/' + total;
+  saveState();
+  if (total > 0 && correct === total) showXp('🔥 Perfect! +' + (correct * 10) + ' XP');
+  else if (total > 0 && correct >= total * 0.7) showXp('✨ Nice! +' + (correct * 5) + ' XP');
+  return { correct, total };
+}
+function clearEx(exId) {
+  document.querySelectorAll('[data-ex="' + exId + '"]').forEach(el => {
+    if (el.disabled) return;
+    if (el.type === 'radio') el.checked = false; else el.value = '';
+    el.classList.remove('correct', 'incorrect');
+  });
+  const scoreEl = document.getElementById('score-' + exId);
+  if (scoreEl) scoreEl.textContent = '';
+  saveState();
+}
+function showXp(msg) {
+  const t = document.getElementById('xpToast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+const GLOSSARY = {
+  hobby: { pos: 'noun', def: 'an activity you do for pleasure in your free time', ex: 'My hobby is photography.', ru: 'хобби' },
+  hobbies: { pos: 'noun', def: 'activities done for pleasure in free time', ex: 'She has many hobbies.', ru: 'хобби' },
+  enjoy: { pos: 'verb', def: 'to get pleasure from something', ex: 'I enjoy dancing.', ru: 'наслаждаться' },
+  routine: { pos: 'noun', def: 'the usual series of things you do', ex: 'Exercise is part of my routine.', ru: 'распорядок' },
+  housework: { pos: 'noun', def: 'work done to keep a home clean', ex: 'I do the housework on Saturday.', ru: 'работа по дому' },
+  exercise: { pos: 'noun', def: 'physical activity to stay healthy', ex: 'I do exercise every day.', ru: 'упражнения' },
+  puzzle: { pos: 'noun', def: 'a game that tests your thinking', ex: 'I love word puzzles.', ru: 'головоломка' },
+  positive: { pos: 'adj', def: 'hopeful and confident', ex: 'Stay positive!', ru: 'позитивный' }
+};
+function showWordPopup(word, x, y) {
+  const popup = document.getElementById('wordPopup');
+  if (!popup) return;
+  const clean = word.replace(/[^a-zA-Z'-]/g, '').toLowerCase();
+  if (clean.length < 2) return;
+  popup.style.display = 'block';
+  popup.style.left = Math.min(x, window.innerWidth - 340) + 'px';
+  popup.style.top = Math.min(y + 10, window.innerHeight - 220) + 'px';
+  popup.querySelector('.wp-word').textContent = clean;
+  popup.querySelector('.wp-pos').textContent = '';
+  popup.querySelector('.wp-def').textContent = 'Looking up…';
+  const ruEl = popup.querySelector('.wp-ru');
+  if (ruEl) ruEl.textContent = '…';
+  popup.querySelector('.wp-ex').textContent = '';
+  if (GLOSSARY[clean]) {
+    const g = GLOSSARY[clean];
+    popup.querySelector('.wp-pos').textContent = g.pos;
+    popup.querySelector('.wp-def').textContent = g.def;
+    popup.querySelector('.wp-ex').textContent = g.ex || '';
+    if (ruEl) ruEl.textContent = g.ru || '';
+    if (!g.ru) fetchRu(clean, ruEl);
+    return;
+  }
+  const ctrl = new AbortController();
+  const to = setTimeout(() => ctrl.abort(), 8000);
+  fetch('https://api.datamuse.com/words?sp=' + encodeURIComponent(clean) + '&md=d&max=1', { signal: ctrl.signal })
+    .then(r => r.json())
+    .then(data => {
+      clearTimeout(to);
+      if (data[0] && data[0].defs && data[0].defs[0]) {
+        const parts = data[0].defs[0].split('\t');
+        popup.querySelector('.wp-pos').textContent = parts[0] || '';
+        popup.querySelector('.wp-def').textContent = parts[1] || data[0].defs[0];
+        fetchRu(clean, ruEl);
+        return null;
+      }
+      return fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(clean), { signal: ctrl.signal });
+    })
+    .then(r => r && r.json ? r.json() : null)
+    .then(d => {
+      if (!d) return;
+      if (Array.isArray(d) && d[0]) {
+        const m = d[0].meanings[0];
+        popup.querySelector('.wp-pos').textContent = m.partOfSpeech || '';
+        popup.querySelector('.wp-def').textContent = m.definitions[0].definition || 'No definition found.';
+        if (m.definitions[0].example) popup.querySelector('.wp-ex').textContent = m.definitions[0].example;
+      } else {
+        popup.querySelector('.wp-def').textContent = 'No definition found.';
+      }
+      fetchRu(clean, ruEl);
+    })
+    .catch(() => {
+      clearTimeout(to);
+      popup.querySelector('.wp-def').textContent = 'Could not look up (offline or timeout).';
+      fetchRu(clean, ruEl);
+    });
+}
+function fetchRu(word, el) {
+  if (!el) return;
+  el.textContent = '…';
+  fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(word) + '&langpair=en|ru')
+    .then(r => r.json())
+    .then(d => {
+      const t = d && d.responseData && d.responseData.translatedText;
+      el.textContent = t && t.toLowerCase() !== word.toLowerCase() ? t : '—';
+    })
+    .catch(() => { el.textContent = '—'; });
+}
+function hideWordPopup() {
+  const p = document.getElementById('wordPopup');
+  if (p) p.style.display = 'none';
+}
+function setupWordLookup() {
+  const main = document.querySelector('.main');
+  if (!main) return;
+  main.addEventListener('dblclick', e => {
+    const sel = window.getSelection().toString().trim();
+    if (sel && sel.split(/\s+/).length <= 3) showWordPopup(sel, e.clientX, e.clientY);
+  });
+  let pressTimer;
+  main.addEventListener('touchstart', e => {
+    pressTimer = setTimeout(() => {
+      const text = window.getSelection().toString().trim();
+      if (text) showWordPopup(text, e.touches[0].clientX, e.touches[0].clientY);
+    }, 550);
+  }, { passive: true });
+  main.addEventListener('touchend', () => clearTimeout(pressTimer));
+  main.addEventListener('touchmove', () => clearTimeout(pressTimer));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hideWordPopup(); });
+  document.addEventListener('click', e => { if (!e.target.closest('#wordPopup')) hideWordPopup(); });
+}
+function collectWritingAnswers() {
+  const texts = [];
+  document.querySelectorAll('textarea[data-ex]').forEach((ta, i) => {
+    const v = (ta.value || '').trim();
+    if (v) texts.push({ id: ta.dataset.ex || ('write' + (i + 1)), text: v });
+  });
+  return texts;
+}
+function collectFullReportData() {
+  const name = (document.getElementById('studentName') && document.getElementById('studentName').value || '').trim();
+  let totalC = 0, totalM = 0;
+  const exercises = [];
+  if (typeof EXERCISES !== 'undefined') {
+    EXERCISES.forEach(ex => {
+      let c = 0, m = ex.max;
+      const mistakes = [];
+      if (ex.quiz) {
+        let answered = 0;
+        for (let i = 1; i <= 7; i++) {
+          if (document.querySelector('input[name="q' + i + '"]:checked')) answered++;
+        }
+        c = answered; m = 7;
+      } else {
+        const res = checkEx(ex.id);
+        c = res.correct; m = res.total || ex.max;
+        document.querySelectorAll('[data-ex="' + ex.id + '"]').forEach(el => {
+          if (!el.dataset.answer || el.disabled || el.type === 'radio') return;
+          if (!isOk(el.value, el.dataset.answer)) {
+            mistakes.push('wrote "' + ((el.value || '—') + '').trim() + '" → ' + el.dataset.answer.split('|')[0]);
+          }
+        });
+      }
+      totalC += c; totalM += m;
+      exercises.push({ name: ex.name, correct: c, max: m, ok: c === m, mistakes: mistakes });
+    });
+  }
+  const pct = totalM ? Math.round(100 * totalC / totalM) : 0;
+  return {
+    name: name,
+    lesson: (document.title || 'Unit lesson').replace(/\s*\|\s*.*$/, '').trim(),
+    date: new Date().toLocaleString(),
+    totalCorrect: totalC,
+    totalMax: totalM,
+    percent: pct,
+    exercises: exercises,
+    writing: collectWritingAnswers()
+  };
+}
+async function submitToTeacher() {
+  const name = (document.getElementById('studentName') && document.getElementById('studentName').value || '').trim();
+  if (!name) { alert('Please enter your name first.'); return; }
+  const payload = collectFullReportData();
+  const btn = document.getElementById('btnSubmitTeacher');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  try {
+    await fetch(TEACHER_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    alert('✓ Progress sent to your teacher!\n\n' + payload.name + ' — ' + payload.percent + '%');
+    showXp('📤 Sent to teacher!');
+  } catch (err) {
+    alert('Could not send. Check your internet connection and try again.');
+  }
+  if (btn) { btn.disabled = false; btn.textContent = '📤 Submit to teacher'; }
+}
+function openReport() {
+  const nameEl = document.getElementById('studentName');
+  const name = (nameEl && nameEl.value || '').trim();
+  if (!name) { alert('Please enter your name first.'); return; }
+  document.getElementById('reportName').textContent = name;
+  let totalC = 0, totalM = 0;
+  const tbody = document.getElementById('reportBody');
+  tbody.innerHTML = '';
+  const lines = ['Unit Results Report', 'Student: ' + name, 'Date: ' + new Date().toLocaleDateString(), ''];
+  EXERCISES.forEach(ex => {
+    let c = 0, m = ex.max, detail = '';
+    if (ex.quiz) {
+      let answered = 0;
+      for (let i = 1; i <= 7; i++) {
+        if (document.querySelector('input[name="q' + i + '"]:checked')) answered++;
+      }
+      c = answered; m = 7;
+    } else {
+      const res = checkEx(ex.id);
+      c = res.correct; m = res.total || ex.max;
+      document.querySelectorAll('[data-ex="' + ex.id + '"]').forEach(el => {
+        if (!el.dataset.answer || el.disabled || el.type === 'radio') return;
+        if (!isOk(el.value, el.dataset.answer))
+          detail += ' ✗ "' + (el.value || '—') + '" → ' + el.dataset.answer.split('|')[0] + ';';
+      });
+    }
+    totalC += c; totalM += m;
+    const mark = c === m ? '✓' : '✗';
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + mark + ' ' + ex.name + '</td><td>' + c + '/' + m + '</td><td style="font-size:0.8rem">' + detail + '</td>';
+    tbody.appendChild(tr);
+    lines.push(mark + ' ' + ex.name + ': ' + c + '/' + m + detail);
+  });
+  const pct = totalM ? Math.round(100 * totalC / totalM) : 0;
+  document.getElementById('reportTotal').textContent = totalC + ' / ' + totalM + ' (' + pct + '%)';
+  lines.push('', 'Overall: ' + totalC + '/' + totalM + ' (' + pct + '%)');
+  window._reportText = lines.join('\n');
+  document.getElementById('reportModal').classList.add('show');
+}
+function closeReport() { document.getElementById('reportModal').classList.remove('show'); }
+function copyReport() {
+  navigator.clipboard.writeText(window._reportText || '').then(() => alert('Report copied!'));
+}
+function downloadReport() {
+  const blob = new Blob([window._reportText || ''], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'results_report.txt';
+  a.click();
+}
+const TEACHER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOLbbrIaq7jq7Y9sBQYBbeLUTjZYwdb00ICZFYuryqlIwdijKO96bzpCqVWwNJdV9SKw/exec';
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  document.querySelectorAll('.nav-link').forEach((a, i) => {
+    a.addEventListener('click', e => { e.preventDefault(); showSection(i); });
+  });
+  document.querySelectorAll('input[data-ex], select[data-ex]').forEach(el => {
+    el.addEventListener('input', () => { liveCheck(el); saveState(); });
+    el.addEventListener('change', () => { liveCheck(el); saveState(); });
+  });
+  document.querySelectorAll('textarea[data-ex]').forEach(el => el.addEventListener('input', saveState));
+  sections().forEach((sec, i) => {
+    if (sec.querySelector('.section-nav')) return;
+    const nav = document.createElement('div');
+    nav.className = 'section-nav';
+    nav.innerHTML = '<button type="button" class="btn-prev" onclick="goPrev()">← Prev</button><span class="counter">' + (i+1) + ' / ' + sections().length + '</span><button type="button" class="btn-next" onclick="goNext()">Next →</button>';
+    sec.appendChild(nav);
+  });
+  setupWordLookup();
+  const nameEl = document.getElementById('studentName');
+  if (nameEl) nameEl.addEventListener('input', saveState);
+  showSection(0);
+});
+
+</script>
+</body>
+</html>
