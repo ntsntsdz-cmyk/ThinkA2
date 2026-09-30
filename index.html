@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0d47a1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta http-equiv="Content-Language" content="en">
-<title>Think Level 1 · Unit 1</title>
+<title>Think Level 1 · Course</title>
 <link rel="manifest" href='data:application/manifest+json,{"name":"Think%20Level%201","short_name":"Think%20L1","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%230d47a1"}'>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -14,7 +14,6 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        empower: { 50:'#f0f7ff', 100:'#e0f0fe', 500:'#0284c7', 600:'#0369a1', 700:'#1d4ed8' },
         calm: { bg:'#f8fafc', card:'#ffffff', text:'#0f172a', muted:'#64748b', border:'#e2e8f0', accent:'#0d9488' }
       },
       fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
@@ -34,14 +33,14 @@ body { font-family: Inter, system-ui, sans-serif; }
   opacity: 0;
 }
 .accordion-content.expanded {
-  max-height: 720px;
+  max-height: 900px;
   opacity: 1;
 }
 .lesson-row:hover .arrow { transform: translateX(3px); color: #0d9488; }
 </style>
 </head>
 <body class="h-full bg-slate-50 text-slate-800 antialiased flex flex-col selection:bg-sky-100 selection:text-sky-900" translate="no">
-<!-- Top Header -->
+
 <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
     <div class="flex items-center gap-2.5 min-w-0">
@@ -77,6 +76,7 @@ body { font-family: Inter, system-ui, sans-serif; }
     </div>
   </div>
 </header>
+
 <div class="sm:hidden bg-white border-b border-slate-200 px-4 py-2 flex items-center gap-3">
   <span class="text-[10px] font-semibold text-slate-500 uppercase">Progress</span>
   <div class="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
@@ -84,33 +84,35 @@ body { font-family: Inter, system-ui, sans-serif; }
   </div>
   <span id="mobileProgressPct" class="text-[11px] font-bold text-emerald-700 tabular-nums">0%</span>
 </div>
+
 <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <div class="space-y-6">
     <div class="bg-gradient-to-r from-sky-50 via-blue-50/50 to-slate-50 border border-sky-100/80 p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm">
       <div class="max-w-2xl relative z-10">
         <span class="inline-block px-3 py-1 bg-sky-100/80 text-sky-900 text-xs font-semibold rounded-full mb-3 border border-sky-200/60">Cambridge Think · 2nd Edition</span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Think Level 1 · Interactive Lessons</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Think Level 1 · Interactive Course</h2>
         <p class="text-slate-600 text-sm sm:text-base mt-2 leading-relaxed">
           Open a unit, choose a lesson, and practise with live checking, audio, and writing feedback.
         </p>
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">Unit 1 ready</span>
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">1A · 1B · 3 · 4</span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">10 units</span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">5 lessons · Review · Test</span>
         </div>
       </div>
     </div>
+
     <div class="max-w-3xl mx-auto flex flex-col sm:flex-row gap-2 sm:items-center">
       <input type="search" id="q" placeholder="Search units or lessons…"
         class="flex-1 px-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-xl shadow-sm focus:ring-2 focus:ring-sky-500/25 focus:border-sky-500 outline-none">
-      <div class="flex gap-1.5"></div>
     </div>
     <p id="status" class="max-w-3xl mx-auto text-xs text-slate-500 -mt-3">Loading lessons…</p>
     <div class="max-w-3xl mx-auto space-y-3" id="unitsAccordionContainer"></div>
     <p class="max-w-3xl mx-auto text-center text-xs text-slate-400 pt-2 pb-6">
-      Your progress is saved on this device and updates as you work through each lesson.
+      Your progress is saved on this device. Grey items are not published yet.
     </p>
   </div>
 </main>
+
 <div id="reportModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeReportModal()">
   <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 space-y-4">
     <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -121,7 +123,7 @@ body { font-family: Inter, system-ui, sans-serif; }
       <button type="button" onclick="closeReportModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold leading-none">&times;</button>
     </div>
     <p class="text-sm text-slate-600 leading-relaxed">
-      Your overall progress is shown in the header. Open a lesson for a detailed <strong class="text-slate-800">Results Report</strong> of that lesson’s exercises, then use <strong class="text-slate-800">Submit to teacher</strong>.
+      Overall progress is in the header. Open a lesson for a detailed <strong class="text-slate-800">Results Report</strong>, then use <strong class="text-slate-800">Submit to teacher</strong>.
     </p>
     <p id="reportNameLine" class="text-xs text-slate-500"></p>
     <div class="flex justify-end">
@@ -129,66 +131,100 @@ body { font-family: Inter, system-ui, sans-serif; }
     </div>
   </div>
 </div>
+
 <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
   <span id="toastMsg">Done</span>
 </div>
+
 <script>
-const LETTERS = ['A','B','C','D'];
-const UNIT_TITLES = { 1: 'Having a Good Time' };
+/** 7 slots per unit */
+const SLOT_DEFS = [
+  { key: '1', label: 'Lesson 1' },
+  { key: '2', label: 'Lesson 2' },
+  { key: '3', label: 'Lesson 3' },
+  { key: '4', label: 'Lesson 4' },
+  { key: '5', label: 'Lesson 5' },
+  { key: 'R', label: 'Unit review' },
+  { key: 'T', label: 'Unit test' }
+];
+
+const UNIT_TITLES = {
+  1: 'Having a Good Time',
+  2: 'Unit 2',
+  3: 'Unit 3',
+  4: 'Unit 4',
+  5: 'Unit 5',
+  6: 'Unit 6',
+  7: 'Unit 7',
+  8: 'Unit 8',
+  9: 'Unit 9',
+  10: 'Unit 10'
+};
+
+/** Published lesson titles (display name next to code) */
 const LESSON_TITLES = {
-  '1A': 'Get Thinking',
-  '1B': 'Enjoy Life',
-  '3': 'Free Time',
-  '4': 'Unusual Hobbies'
+  '1-1': 'Get Thinking',
+  '1-2': 'Enjoy Life',
+  '1-3': 'Free Time',
+  '1-4': 'Unusual Hobbies'
 };
-/** Map short codes → actual HTML filenames in this repo */
+
+/** Actual HTML files currently in the repo */
 const FILE_MAP = {
-  '1A': 'Unit1_Lesson1A_Get_Thinking.html',
-  '1B': 'Unit1_Lesson1B_Enjoy_Life.html',
-  '3': 'Unit1_Lesson3_FreeTime.html',
-  '4': 'Unit1_Lesson4_Unusual_Hobbies.html'
+  '1-1': 'Unit1_Lesson1A_Get_Thinking.html',
+  '1-2': 'Unit1_Lesson1B_Enjoy_Life.html',
+  '1-3': 'Unit1_Lesson3_FreeTime.html',
+  '1-4': 'Unit1_Lesson4_Unusual_Hobbies.html'
 };
+
 let expandedUnitId = 1;
-let filter = 'all';
 let query = '';
 let COURSE = [];
+
+function codeFor(unit, slotKey) {
+  return unit + '-' + slotKey;
+}
+
 function parseLessonFile(name) {
   if (!name || !/\.html$/i.test(name) || /^index\.html$/i.test(name)) return null;
-  // Unit1_Lesson1A_Get_Thinking.html / Unit1_Lesson3_FreeTime.html
-  let m = name.match(/^Unit1_Lesson(\d+)([A-Da-d])?(?:_(.+))?\.html$/i);
+
+  // Unit1_Lesson1A_Get_Thinking.html → unit 1, map A→1, B→2
+  let m = name.match(/^Unit(\d+)_Lesson(\d+)([A-Da-d])?(?:_(.+))?\.html$/i);
   if (m) {
-    const num = m[1];
-    const letter = (m[2] || '').toUpperCase();
-    const code = letter ? (num + letter) : num;
-    const slot = letter || num;
-    const title = LESSON_TITLES[code] || titleFromSlug(m[3] || '');
-    return { unit: 1, slot: slot, code: code, title: title, file: name };
+    const unit = +m[1];
+    let lessonNum = m[2];
+    const letter = (m[3] || '').toUpperCase();
+    // 1A → slot 1, 1B → slot 2; plain Lesson3 → slot 3
+    if (letter === 'A') lessonNum = '1';
+    else if (letter === 'B') lessonNum = '2';
+    else if (letter === 'C') lessonNum = '3';
+    else if (letter === 'D') lessonNum = '4';
+    const code = codeFor(unit, lessonNum);
+    const title = LESSON_TITLES[code] || titleFromSlug(m[4] || ('Lesson ' + lessonNum));
+    return { unit, slot: lessonNum, code, title, file: name };
   }
-  // 1A.html style
-  m = name.match(/^(\d{1,2})([A-Da-d])(?:[_.-](.*))?\.html$/);
+
+  // Unit1_Review.html / Unit1_Test.html
+  m = name.match(/^Unit(\d+)_(Review|Test)(?:_.*)?\.html$/i);
   if (m) {
-    const unit = +m[1], slot = m[2].toUpperCase();
-    const code = unit + slot;
-    return { unit, slot, code, title: LESSON_TITLES[code] || titleFromSlug(m[3] || ''), file: name };
+    const unit = +m[1];
+    const slot = /^review$/i.test(m[2]) ? 'R' : 'T';
+    const code = codeFor(unit, slot);
+    return {
+      unit, slot, code,
+      title: slot === 'R' ? 'Unit review' : 'Unit test',
+      file: name
+    };
   }
-  // 3.html / 4.html numeric-only lessons in unit 1
-  m = name.match(/^Unit1_Lesson(\d+)(?:_(.+))?\.html$/i);
-  if (m) {
-    const code = m[1];
-    return { unit: 1, slot: code, code: code, title: LESSON_TITLES[code] || titleFromSlug(m[2] || ''), file: name };
-  }
+
   return null;
 }
+
 function titleFromSlug(s) {
   if (!s) return 'Lesson';
   return s.replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim();
 }
-function titleFromName(filename, code) {
-  if (code && LESSON_TITLES[code]) return LESSON_TITLES[code];
-  const bare = filename.replace(/\.html$/i, '');
-  let t = bare.replace(/^Unit1_Lesson\d+[A-D]?_?/i, '').replace(/[_-]+/g, ' ').trim();
-  return t ? t.replace(/\b\w/g, c => c.toUpperCase()) : (LESSON_TITLES[code] || 'Lesson');
-}
+
 function detectRepo() {
   const params = new URLSearchParams(location.search);
   if (params.get('repo')) {
@@ -205,6 +241,7 @@ function detectRepo() {
   }
   return null;
 }
+
 async function listHtmlFiles(owner, repo, branch) {
   const tried = new Set();
   let lastErr = null;
@@ -227,58 +264,53 @@ async function listHtmlFiles(owner, repo, branch) {
   }
   throw new Error(lastErr || 'Could not list files');
 }
+
 function buildCourse(discovered) {
   const map = {};
   discovered.forEach(l => { map[l.code] = l; });
-  // Ensure known files from FILE_MAP appear even if API misses them
+
+  // Force known published files
   Object.keys(FILE_MAP).forEach(code => {
     if (!map[code]) {
+      const [u, s] = code.split('-');
       map[code] = {
-        unit: 1,
-        slot: code.replace(/^\d+/, '') || code,
-        code: code,
-        title: LESSON_TITLES[code] || code,
+        unit: +u,
+        slot: s,
+        code,
+        title: LESSON_TITLES[code] || SLOT_DEFS.find(d => d.key === s)?.label || code,
         file: FILE_MAP[code]
       };
     } else if (!map[code].file) {
       map[code].file = FILE_MAP[code];
     }
   });
+
   const course = [];
-  // Unit 1: show published slots 1A, 1B, 3, 4 (and placeholders for 1C, 1D if desired)
-  const unit1Slots = [
-    { code: '1A', title: 'Get Thinking' },
-    { code: '1B', title: 'Enjoy Life' },
-    { code: '3', title: 'Free Time' },
-    { code: '4', title: 'Unusual Hobbies' }
-  ];
-  const lessons = unit1Slots.map(s => map[s.code] || {
-    unit: 1, slot: s.code, code: s.code, title: s.title, file: FILE_MAP[s.code] || null
-  });
-  course.push({ unit: 1, title: UNIT_TITLES[1] || 'Unit 1', lessons: lessons });
-  // Future units 2–12 as empty structure (optional)
-  for (let u = 2; u <= 6; u++) {
+  for (let u = 1; u <= 10; u++) {
+    const lessons = SLOT_DEFS.map(def => {
+      const code = codeFor(u, def.key);
+      if (map[code]) return map[code];
+      return {
+        unit: u,
+        slot: def.key,
+        code,
+        title: def.key === 'R' ? 'Unit review' : def.key === 'T' ? 'Unit test' : (LESSON_TITLES[code] || def.label),
+        file: FILE_MAP[code] || null
+      };
+    });
     course.push({
       unit: u,
       title: UNIT_TITLES[u] || ('Unit ' + u),
-      lessons: LETTERS.map(letter => ({
-        unit: u, slot: letter, code: u + letter,
-        title: 'Lesson ' + letter, file: null
-      }))
+      lessons
     });
   }
   return course;
 }
+
 function saveStudentName(name) {
   localStorage.setItem('thinkL1_student', name);
 }
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  toast.classList.remove('translate-y-20', 'opacity-0');
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
-}
+
 function openProgressReport() {
   const name = (document.getElementById('studentNameInput').value || '').trim();
   document.getElementById('reportNameLine').textContent = name
@@ -289,20 +321,22 @@ function openProgressReport() {
 function closeReportModal() {
   document.getElementById('reportModal').classList.add('hidden');
 }
+
 const PROGRESS_KEY = 'thinkL1_lessonProgress';
 function readProgressMap() {
   try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}') || {}; }
   catch (_) { return {}; }
 }
+
 function updateHeaderProgress() {
   const map = readProgressMap();
-  const codes = Object.keys(FILE_MAP);
+  const TOTAL = 10 * 7; // 10 units × 7 slots
   let sum = 0;
-  codes.forEach(code => {
+  Object.keys(map).forEach(code => {
     const p = Number(map[code] && map[code].pct);
     if (!isNaN(p)) sum += Math.max(0, Math.min(100, p));
   });
-  const pct = codes.length ? Math.round(sum / codes.length) : 0;
+  const pct = Math.round(sum / TOTAL);
   const bar = document.getElementById('headerProgressBar');
   const txt = document.getElementById('headerProgressPct');
   if (bar) bar.style.width = pct + '%';
@@ -312,33 +346,35 @@ function updateHeaderProgress() {
   if (mb) mb.style.width = pct + '%';
   if (mt) mt.textContent = pct + '%';
 }
+
+function badgeLabel(lesson) {
+  if (lesson.slot === 'R') return 'Review';
+  if (lesson.slot === 'T') return 'Test';
+  return String(lesson.slot);
+}
+
 function renderAccordion() {
   const container = document.getElementById('unitsAccordionContainer');
   container.innerHTML = '';
   const q = query.trim().toLowerCase();
   const pmap = readProgressMap();
+
   COURSE.forEach(unit => {
     const lessons = unit.lessons.filter(l => {
       if (!q) return true;
-      return (unit.title + ' ' + l.code + ' ' + l.title + ' unit ' + unit.unit).toLowerCase().includes(q);
+      return (unit.title + ' ' + l.code + ' ' + l.title + ' unit ' + unit.unit + ' lesson').toLowerCase().includes(q);
     });
     if (!lessons.length) return;
-    // hide future units with zero published lessons unless searching
-    const hasAnyFile = unit.lessons.some(l => l.file);
-    if (!hasAnyFile && !q && unit.unit > 1) return;
 
-    let unitSum = 0, unitN = 0;
+    let unitSum = 0;
     unit.lessons.forEach(l => {
-      if (!l.file) return;
-      unitN++;
       const p = Number(pmap[l.code] && pmap[l.code].pct);
       if (!isNaN(p)) unitSum += Math.max(0, Math.min(100, p));
     });
-    const unitPct = unitN ? Math.round(unitSum / unitN) : 0;
+    const unitPct = Math.round(unitSum / 7);
     const isExpanded = unit.unit === expandedUnitId || !!q;
-    const displayTitle = UNIT_TITLES[unit.unit]
-      ? 'Unit ' + unit.unit + ': ' + UNIT_TITLES[unit.unit]
-      : 'Unit ' + unit.unit;
+    const displayTitle = 'Unit ' + unit.unit + ': ' + unit.title;
+
     const card = document.createElement('div');
     card.className = 'bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm transition-all';
     card.innerHTML = `
@@ -362,16 +398,18 @@ function renderAccordion() {
       <div class="accordion-content ${isExpanded ? 'expanded' : ''} bg-slate-50/50 border-t border-slate-100">
         <div class="p-3 sm:p-4 space-y-1.5" data-lessons></div>
       </div>`;
+
     const list = card.querySelector('[data-lessons]');
     lessons.forEach(lesson => {
       const lp = Number(pmap[lesson.code] && pmap[lesson.code].pct) || 0;
+      const badge = badgeLabel(lesson);
       if (lesson.file) {
         const a = document.createElement('a');
         a.href = lesson.file;
         a.className = 'lesson-row flex items-center justify-between p-3 bg-white border border-slate-200/70 rounded-lg hover:border-sky-300 hover:bg-sky-50/40 transition-all group';
         a.innerHTML = `
           <div class="flex items-center gap-3 min-w-0">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-100 group-hover:bg-sky-100 transition-colors shrink-0">${lesson.code}</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-100 group-hover:bg-sky-100 transition-colors shrink-0">${badge}</span>
             <span class="text-xs sm:text-sm font-medium text-slate-700 group-hover:text-slate-900 truncate">${lesson.title}</span>
           </div>
           <div class="flex items-center gap-2 shrink-0">
@@ -384,13 +422,14 @@ function renderAccordion() {
         d.className = 'flex items-center justify-between p-3 bg-white/80 border border-slate-100 rounded-lg';
         d.innerHTML = `
           <div class="flex items-center gap-3 min-w-0">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500 shrink-0">${lesson.code}</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500 shrink-0">${badge}</span>
             <span class="text-xs sm:text-sm font-medium text-slate-400 truncate">${lesson.title}</span>
           </div>
           <span class="text-[11px] font-bold tabular-nums text-slate-300">0%</span>`;
         list.appendChild(d);
       }
     });
+
     card.querySelector('button[data-unit]').addEventListener('click', () => {
       expandedUnitId = expandedUnitId === unit.unit ? null : unit.unit;
       renderAccordion();
@@ -399,6 +438,7 @@ function renderAccordion() {
   });
   updateHeaderProgress();
 }
+
 async function init() {
   const saved = localStorage.getItem('thinkL1_student');
   if (saved) document.getElementById('studentNameInput').value = saved;
@@ -418,14 +458,15 @@ async function init() {
     status.textContent = '';
     status.className = 'hidden';
   }
-  const firstReady = COURSE.find(u => u.lessons.some(l => l.file));
-  if (firstReady) expandedUnitId = firstReady.unit;
+  expandedUnitId = 1;
   renderAccordion();
 }
+
 document.getElementById('q').addEventListener('input', e => {
   query = e.target.value;
   renderAccordion();
 });
+
 init();
 </script>
 </body>
